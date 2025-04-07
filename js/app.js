@@ -18,6 +18,13 @@ let cards = [];
 const DEBUG_SHOW_SPINNER = false;
 const LOADING_DELAY = 4000; // 2 seconds delay
 
+//handling card selection
+let firstSelectedCard = null;
+let secondSelectedCard = null;
+
+//Flag to prevent interaction while processing
+let isProcessingPair = false;
+
 /**
  * Initialize the application
  *
@@ -244,8 +251,51 @@ function handleCardClick(event) {
     return;
   }
 
+  //pair porcessing
+  if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+    return; // Already flipped or matched
+  }
+
+  if (isProcessingPair) {
+    return;
+  }
+
   // Toggle card flip
-  card.classList.toggle('flipped');
+  card.classList.add('flipped');
+
+  //Selection track logic
+  if (!firstSelectedCard) {
+    //selecting the first
+    firstSelectedCard = card;
+  } else {
+    //selecting the second
+    secondSelectedCard = card;
+    isProcessingPair = true;
+
+    //setting values
+    const val1 = firstSelectedCard.dataset.pokemon;
+    const val2 = secondSelectedCard.dataset.pokemon;
+
+    if (val1 === val2) {
+      // match found
+      firstSelectedCard.classList.add('matched');
+      secondSelectedCard.classList.add('matched');
+      resetSelection();
+    } else {
+      //no match, timeout 1s
+      setTimeout(() => {
+        firstSelectedCard.classList.remove('flipped');
+        secondSelectedCard.classList.remove('flipped');
+        resetSelection();
+      }, 1000);
+    }
+  }
+}
+
+function resetSelection() {
+  firstSelectedCard = null;
+  secondSelectedCard = null;
+  isProcessingPair = false;
 }
 
 /**
