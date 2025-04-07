@@ -112,7 +112,14 @@ function createCardElement(index) {
 async function fetchAndAssignPokemon() {
   try {
     // Fetch multiple random Pokemon
-    const pokemonList = await PokemonService.fetchMultipleRandomPokemon(CARD_COUNT);
+    const pokemonList = await PokemonService.fetchMultipleRandomPokemon(CARD_COUNT / 2); //CARD_COUND / 2 = 6 Create 6 instead of 12
+
+    const copy = [...pokemonList]; // copying the original array
+
+    const All = pokemonList.concat(copy); // merging
+
+    // To shuffle pairs
+    const ShufflePairs = ShuffleArray(All)
 
     // If debug flag is on, add artificial delay to show the spinner
     if (DEBUG_SHOW_SPINNER) {
@@ -121,11 +128,27 @@ async function fetchAndAssignPokemon() {
 
     // Assign Pokemon to cards
     for (let i = 0; i < CARD_COUNT; i++) {
-      assignPokemonToCard(cards[i], pokemonList[i]);
+      assignPokemonToCard(cards[i], ShufflePairs[i]);
     }
   } catch (error) {
     console.error('Error fetching and assigning Pokemon:', error);
   }
+}
+
+function ShuffleArray(array) {
+  //copying main array
+  const arraycopy = structuredClone(array);
+
+  // shuffling with Fisher-yates algorytm
+  for (let i = arraycopy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [arraycopy[i], arraycopy[j]] = [arraycopy[j], arraycopy[i]];
+  }
+
+  //returning
+  return arraycopy;
+
 }
 
 /**
