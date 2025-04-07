@@ -25,6 +25,10 @@ let secondSelectedCard = null;
 //Flag to prevent interaction while processing
 let isProcessingPair = false;
 
+// state tracking
+let matched = 0;
+const TOTAL_PAIRS = 6;
+
 /**
  * Initialize the application
  *
@@ -280,6 +284,11 @@ function handleCardClick(event) {
       // match found
       firstSelectedCard.classList.add('matched');
       secondSelectedCard.classList.add('matched');
+      // increment matched pairs
+      matched += 1;
+      //check pairs completed
+      checkGameCompletion();
+      //reset selection
       resetSelection();
     } else {
       //no match, timeout 1s
@@ -298,6 +307,31 @@ function resetSelection() {
   isProcessingPair = false;
 }
 
+function checkGameCompletion() {
+  if (matched == TOTAL_PAIRS) {
+    showGameComplete();
+  } else {
+    console.log('Pairs matched: ' + matched);
+  }
+}
+
+function showGameComplete() {
+  const messageContainer = document.createElement('div');
+  messageContainer.classList.add('completion-message');
+
+  messageContainer.innerHTML = `
+  <h1>Congratulations Player</h1>
+  <p> You found all Pokemon Pairs </p>
+  <button id="play-again">Play Again </button>
+  `;
+
+  document.querySelector('.container').appendChild(messageContainer);
+
+  document.getElementById('play-again').addEventListener('click', () => {
+    messageContainer.remove();
+    resetGame();
+  });
+}
 /**
  * Set up event listeners
  *
