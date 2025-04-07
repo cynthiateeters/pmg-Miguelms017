@@ -327,9 +327,10 @@ function showGameComplete() {
 
   document.querySelector('.container').appendChild(messageContainer);
 
+  //reset game
   document.getElementById('play-again').addEventListener('click', () => {
     messageContainer.remove();
-    resetGame();
+    initApp(); //important to reset game.
   });
 }
 /**
