@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
  * Main Application Logic - Simplified Version
  * This file contains the main functionality for the Pokemon Card Flip App
@@ -123,14 +124,15 @@ function createCardElement(index) {
 async function fetchAndAssignPokemon() {
   try {
     // Fetch multiple random Pokemon
-    const pokemonList = await PokemonService.fetchMultipleRandomPokemon(CARD_COUNT / 2); //CARD_COUND / 2 = 6 Create 6 instead of 12
+    const pokemonList = await PokemonService.fetchMultipleRandomPokemon(CARD_COUNT / 2);
+    //CARD_COUND / 2 = 6 Create 6 instead of 12
 
     const copy = [...pokemonList]; // copying the original array
 
     const All = pokemonList.concat(copy); // merging
 
     // To shuffle pairs
-    const ShufflePairs = ShuffleArray(All)
+    const ShufflePairs = ShuffleArray(All);
 
     // If debug flag is on, add artificial delay to show the spinner
     if (DEBUG_SHOW_SPINNER) {
@@ -308,10 +310,8 @@ function resetSelection() {
 }
 
 function checkGameCompletion() {
-  if (matched == TOTAL_PAIRS) {
+  if (matched === TOTAL_PAIRS) {
     showGameComplete();
-  } else {
-    console.log('Pairs matched: ' + matched);
   }
 }
 
@@ -330,6 +330,7 @@ function showGameComplete() {
   //reset game
   document.getElementById('play-again').addEventListener('click', () => {
     messageContainer.remove();
+    matched = 0;
     initApp(); //important to reset game.
   });
 }
