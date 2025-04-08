@@ -28,7 +28,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
     # Content Security Policy (CSP)
-    Content-Security-Policy = "default-src 'self'; img-src 'self' https://raw.githubusercontent.com https://*.pokeapi.co data:; connect-src 'self' https://*.pokeapi.co; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'"
+    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://pokeapi.co; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pokeapi.co"
 
 # Environment variables
 [build.environment]
